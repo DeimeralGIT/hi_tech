@@ -1,4 +1,8 @@
+// ignore_for_file: import_of_legacy_library_into_null_safe
+
+import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:parallax_bg/parallax_bg.dart';
 
 void main() {
   runApp(const MyApp());
@@ -9,57 +13,54 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
+      title: 'Hi Tech',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: AnimatedSplashScreen(
+        splash: Image.asset(
+          "assets/app_icon.jpg",
+        ),
+        curve: Curves.easeInOut,
+        nextScreen: const MyHomePage(),
+        splashIconSize: 500,
+        duration: 1500,
+      ),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-  final String title;
+  const MyHomePage({Key? key}) : super(key: key);
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
+      body: Stack(
+        children: [
+          parallaxBG(),
+        ],
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
+    );
+  }
+
+  Widget parallaxBG() {
+    return ParallaxBackground(
+      backgroundImage: "assets/parallax_bg.jpg",
+      foregroundChilds: [
+        ParallaxItem(
+          child: Image.asset(
+            "assets/parallax_bg.jpg",
+            fit: BoxFit.fitHeight,
+          ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
+      ],
     );
   }
 }
