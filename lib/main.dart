@@ -1,66 +1,48 @@
 // ignore_for_file: import_of_legacy_library_into_null_safe
 
-import 'package:animated_splash_screen/animated_splash_screen.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:parallax_bg/parallax_bg.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:flutter/services.dart';
+import 'package:hi_tech/Features/sign_in/preview/sing_in_page.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
+  runApp(
+    EasyLocalization(
+        supportedLocales: const [Locale('en', 'US'), Locale('ru', 'RU'), Locale('am', "AM")],
+        path: 'translations',
+        fallbackLocale: const Locale('en', 'US'),
+        child: const MyApp()),
+  );
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    bool isDarkMode = SchedulerBinding.instance.window.platformBrightness == Brightness.dark;
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        systemNavigationBarIconBrightness: (isDarkMode) ? Brightness.light : Brightness.dark,
+        statusBarIconBrightness: (isDarkMode) ? Brightness.light : Brightness.dark,
+      ),
+    );
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Hi Tech',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: AnimatedSplashScreen(
-        splash: Image.asset(
-          "assets/app_icon.jpg",
-        ),
-        curve: Curves.easeInOut,
-        nextScreen: const MyHomePage(),
-        splashIconSize: 500,
-        duration: 1500,
-      ),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key}) : super(key: key);
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          parallaxBG(),
-        ],
-      ),
-    );
-  }
-
-  Widget parallaxBG() {
-    return ParallaxBackground(
-      backgroundImage: "assets/parallax_bg.jpg",
-      foregroundChilds: [
-        ParallaxItem(
-          child: Image.asset(
-            "assets/parallax_bg.jpg",
-            fit: BoxFit.fitHeight,
-          ),
-        ),
-      ],
+      supportedLocales: context.supportedLocales,
+      localizationsDelegates: context.localizationDelegates,
+      locale: context.locale,
+      home: SignInPage(),
     );
   }
 }
