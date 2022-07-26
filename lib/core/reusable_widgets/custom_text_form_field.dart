@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hi_tech/core/colors.dart';
 import 'package:hi_tech/core/custom_input_form_decoration.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
+import 'package:intl_phone_number_input/intl_phone_number_input_test.dart';
 
 class CustomTextFormField extends StatefulWidget {
   String label;
@@ -10,12 +11,14 @@ class CustomTextFormField extends StatefulWidget {
   TextEditingController? controller;
   bool middleText;
   bool isPhoneNumber;
+  String regexp;
   CustomTextFormField({
     required this.label,
     this.isObscure = false,
     this.controller,
     this.middleText = false,
     this.isPhoneNumber = false,
+    this.regexp = "",
   });
 
   @override
@@ -60,16 +63,26 @@ class CustomTextFormFieldState extends State<CustomTextFormField> {
                         return hasError ? "cant_be_empty".tr() : null;
                       }),
                       inputDecoration: customInputDecoration(label: widget.label, middleText: widget.middleText),
-                      errorMessage: "",
                     ),
                   )
                 : TextFormField(
-                    validator: ((value) {
-                      setState(() {
-                        hasError = value != null ? value.isEmpty : true;
-                      });
-                      return hasError ? "cant_be_empty".tr() : null;
-                    }),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        setState(() {
+                          hasError = true;
+                        });
+                        return "cant_be_empty".tr();
+                      } else if (!RegExp(widget.regexp).hasMatch(value.toString()) && widget.regexp.isNotEmpty) {
+                        setState(() {
+                          hasError = true;
+                        });
+                        return "invalid_input".tr();
+                      } else {
+                        setState(() {
+                          hasError = false;
+                        });
+                      }
+                    },
                     decoration: customInputDecoration(label: widget.label, middleText: widget.middleText),
                     focusNode: focusNode,
                     obscureText: widget.isObscure,

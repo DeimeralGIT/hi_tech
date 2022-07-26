@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:hi_tech/Features/sign_in/preview/sing_in_page.dart';
 import 'package:hi_tech/core/account_model.dart';
 import 'package:hi_tech/core/colors.dart';
 import 'package:hi_tech/core/data_manager.dart';
@@ -39,6 +40,7 @@ class CreateAccountSectionState extends State<CreateAccountSection> {
           CustomTextFormField(
             label: "email",
             controller: widget.emailController,
+            regexp: r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
           ),
           const SizedBox(height: 32),
           CustomTextFormField(
@@ -52,11 +54,7 @@ class CreateAccountSectionState extends State<CreateAccountSection> {
             isObscure: true,
           ),
           const SizedBox(height: 32),
-          CustomTextFormField(
-            label: "confirm_password",
-            controller: widget.confirmPasswordController,
-            isObscure: true,
-          ),
+          CustomTextFormField(label: "confirm_password", controller: widget.confirmPasswordController, isObscure: true),
           const SizedBox(height: 32),
           _createAccountButton(widget.formKey, context),
         ],
@@ -101,7 +99,12 @@ class CreateAccountSectionState extends State<CreateAccountSection> {
                         context: context,
                         builder: (_) => AlertDialog(
                               content: Text("account_created_successfully".tr()),
-                              actions: [TextButton(onPressed: () => Navigator.of(context).pop(), child: Text("ok".tr()))],
+                              actions: [
+                                TextButton(
+                                    onPressed: () =>
+                                        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (_) => SignInPage()), (route) => false),
+                                    child: Text("ok".tr()))
+                              ],
                             ));
                   });
                 }

@@ -37,5 +37,6 @@
 "new_password": "Новый пароль",
 "password_updated": "Пароль обновлен",
 "lorem_ipsum": "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. ...",
-"successfully_signed_in" : "Успешный вход"
+"successfully_signed_in" : "Успешный вход",
+"invalid_input" : "неправильный ввод"
 }
