@@ -1,8 +1,6 @@
-import 'dart:io';
-
 import 'package:universal_platform/universal_platform.dart';
 
-bool isMobile = !UniversalPlatform.isWeb;
+bool isMobile = UniversalPlatform.isAndroid || UniversalPlatform.isIOS;
 
 double appBarHeight = 120;
 double appBarMainLogoHeight = 34.67;

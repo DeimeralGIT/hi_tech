@@ -1,5 +1,6 @@
 // ignore_for_file: non_constant_identifier_names
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hi_tech/core/colors.dart';
@@ -43,13 +44,11 @@ Widget _logoWidget() {
 
 Widget _appBarText() {
   return Expanded(
-    child: Center(
-      child: Text(
-        "lorem_ipsum".tr(),
-        textAlign: TextAlign.start,
-        style: const TextStyle(
-          fontWeight: FontWeight.w600,
-        ),
+    child: Text(
+      "lorem_ipsum".tr(),
+      textAlign: TextAlign.start,
+      style: const TextStyle(
+        fontWeight: FontWeight.w600,
       ),
     ),
   );
@@ -69,7 +68,7 @@ Widget _backToLoginSection(BuildContext context) {
       alignment: Alignment.center,
       child: Row(
         children: [
-          Text("back_to_login".tr()),
+          Expanded(child: AutoSizeText("back_to_login".tr())),
           const Spacer(),
           ElevatedButton(
             onPressed: () => Navigator.of(context).pop(),

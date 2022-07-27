@@ -18,7 +18,7 @@ class signInSection extends StatefulWidget {
 
 class signInSectionState extends State<signInSection> {
   @override
-  Widget build(BuildContext context) {
+  void initState() {
     if (isMobile) {
       readAccounts().then((accounts) {
         if (accounts.isNotEmpty) {
@@ -29,6 +29,11 @@ class signInSectionState extends State<signInSection> {
         }
       });
     }
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 48),
       child: CustomInteractionCard(
